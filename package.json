@@ -7,6 +7,7 @@
     "@babel/preset-env": "^7.14.8",
     "babel-jest": "^27.0.6",
     "cross-env": "^7.0.3",
+    "eslint-plugin-jest": "^24.3.6",
     "jest": "^27.0.6",
     "react-scripts": "^4.0.3",
     "redux-devtools-extension": "^2.13.9"
