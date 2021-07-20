@@ -3,7 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "@babel/core": "^7.14.8",
+    "@babel/preset-env": "^7.14.8",
+    "babel-jest": "^27.0.6",
     "cross-env": "^7.0.3",
+    "jest": "^27.0.6",
     "react-scripts": "^4.0.3",
     "redux-devtools-extension": "^2.13.9"
   },
@@ -26,7 +30,7 @@
   "scripts": {
     "start": "cross-env PORT=4100 react-scripts start",
     "build": "react-scripts build",
-    "test": "cross-env PORT=4100 react-scripts test --env=jsdom",
+    "test": "jest",
     "eject": "react-scripts eject",
     "lint": "eslint src"
   },
