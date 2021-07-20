@@ -41,6 +41,7 @@ jobs:
           rm: true
           source: build/*
           target: "~/realworld/public"
+          strip_components: 1
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
