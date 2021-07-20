@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Reducers: common should properly handle action without payload 1`] = `
+Object {
+  "appLoaded": true,
+  "currentUser": null,
+  "token": null,
+}
+`;
