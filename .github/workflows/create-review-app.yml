@@ -1,0 +1,59 @@
+name: Create review app
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: yarn install --frozen-lockfile
+
+      - name: Build
+        run: yarn build
+
+      - name: Archive build
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download a single artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: build
+
+      - name: Copy build to the server
+        uses: appleboy/scp-action@v0.1.1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          rm: true
+          source: build/*
+          target: "~/app/${{ github.head_ref }}/public/"
+          strip_components: 1
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+
+
+      - name: Post review app URL
+        if: success()
+        uses: mshick/add-pr-comment@v1
+        with:
+          message: Created new review app at ${{ env.REVIEW_APP_URL }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          REVIEW_APP_URL: http://${{ github.head_ref }}.${{ secrets.APP_HOST }}/
